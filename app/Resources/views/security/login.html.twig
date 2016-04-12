@@ -4,12 +4,30 @@
     {% if error %}
         {{ error.messageKey|trans(error.messageData, 'security') }}
     {% endif %}
-
-    <form action="{{ path('user_login_check') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="_username" id="username" value="{{ lastUserName }}" >
-        <label for="password">Password:</label>
-        <input type="password" name="_password" id="password">
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <form class="form-horizontal" action="{{ path('user_login_check') }}" method="post">
+            <div class="form-group">
+                <label for="username"  class="col-sm-2 control-label" placeholder="Username">Username:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="_username" id="username" value="{{ lastUserName }}" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label" placeholder="Password">Password:</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" name="_password" id="password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <a href="/register">register</a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

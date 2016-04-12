@@ -22,7 +22,13 @@ security:
             form_login:
                 login_path: user_login
                 check_path: user_login_check
-
+                default_target_path: message_index
+                failure_path: user_login
             logout:
                 path: user_logout
                 target: homepage
+
+    access_control:
+            # this is a catch-all for the admin area
+            # additional security lives in the controllers
+            - { path: ^/main/index, roles: IS_AUTHENTICATED_FULLY }
