@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/main")
+ * @Route("/message")
  */
 class MessageController extends Controller
 {
@@ -21,7 +21,6 @@ class MessageController extends Controller
     public function indexAction(Request $request)
     {
         $query = $this->getDoctrine()->getRepository('AppBundle:Message')->queryLatest();
-//        $messages = $this->getDoctrine()->getRepository('AppBundle:Message')->findLatest();
 
         $paginator  = $this->get('knp_paginator');
         $messages = $paginator->paginate(
@@ -39,7 +38,7 @@ class MessageController extends Controller
 
             $message -> setCreatetime(new \DateTime('now'));
             $user = $this -> getUser();
-            $message -> setUser($user -> getUsername());
+            $message -> setUser($user);
             if($message -> getFile()) {
                 $message->setMimeType($message->getFile()->getMimeType());
             }

@@ -12,15 +12,18 @@ class MessageRepository extends \Doctrine\ORM\EntityRepository
 {
     public function queryLatest()
     {
-        return $this->getEntityManager()
-            ->createQuery('
-                SELECT p
-                FROM AppBundle:Message p
-                WHERE p.createtime <= :now
-                ORDER BY p.createtime DESC
-            ')
-            ->setParameter('now', new \DateTime())
-            ;
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.createtime','DESC')
+            ->getQuery();
+//        return $this->getEntityManager()
+//            ->createQuery('
+//                SELECT p
+//                FROM AppBundle:Message p
+//                WHERE p.createtime <= :now
+//                ORDER BY p.createtime DESC
+//            ')
+//            ->setParameter('now', new \DateTime())
+//            ;
     }
 
     public function findLatest()

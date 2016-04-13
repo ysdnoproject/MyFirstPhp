@@ -33,9 +33,12 @@ class Message
     private $content;
 
     /**
-     * @var string
+     * Many-To-One, Unidirectional
      *
-     * @ORM\Column(name="user", type="string", length=255)
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
@@ -120,7 +123,7 @@ class Message
     /**
      * Set user
      *
-     * @param string $user
+     * @param User $user
      *
      * @return Message
      */
@@ -134,7 +137,7 @@ class Message
     /**
      * Get user
      *
-     * @return string
+     * @return User
      */
     public function getUser()
     {
