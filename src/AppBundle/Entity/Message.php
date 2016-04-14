@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Message
@@ -50,41 +50,18 @@ class Message
     private $createtime;
 
     /**
-     * @var string
+     * One-To-Many, Unidirectional
      *
-     * @ORM\Column(name="mimeType", type="string", length=255, nullable=true)
-     */
-    private $mimeType;
-
-    /**
-     * @Vich\UploadableField(mapping="upload_file", fileNameProperty="fileName")
-     * @Assert\File( maxSize="10M", mimeTypes={"application/pdf", "application/zip", "image/png", "image/jpeg", "image/gif"} )
-     * @var File
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserFile", mappedBy="message", cascade={"persist"})
      */
     private $file;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="fileName", type="string", length=255, nullable=true)
-     */
-    private $fileName;
-
-//    /**
-//     * @Vich\UploadableField(mapping="upload_image", fileNameProperty="imageName")
-//     * @Assert\File( maxSize="2M", mimeTypes={"image/png", "image/jpeg", "image/gif"} )
-//     * @var File
-//     */
-//    private $image;
-//
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="imageName", type="string", length=255, nullable=true)
-//     */
-//    private $imageName;
-
-
+    public function __construct()
+    {
+        $this->file = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -169,72 +146,26 @@ class Message
     }
 
     /**
-     * Set mimeType
+     * Set file
      *
-     * @param string $mimeType
+     * @param ArrayCollection $file
      *
      * @return Message
      */
-    public function setMimeType($mimeType)
-    {
-        $this->mimeType = $mimeType;
-
-        return $this;
-    }
-
-    /**
-     * Get mimeType
-     *
-     * @return string
-     */
-    public function getMimeType()
-    {
-        return $this->mimeType;
-    }
-
-    public function setFile(File $file = null)
+    public function setFile($file)
     {
         $this->file = $file;
     }
 
+    /**
+     * Get file
+     *
+     * @return ArrayCollection
+     */
     public function getFile()
     {
         return $this->file;
     }
-
-    /**
-     * Set fileName
-     *
-     * @param string $fileName
-     *
-     * @return Message
-     */
-    public function setFileName($fileName)
-    {
-        $this->fileName = $fileName;
-
-        return $this;
-    }
-
-    /**
-     * Get fileName
-     *
-     * @return string
-     */
-    public function getFileName()
-    {
-        return $this->fileName;
-    }
-
-//    public function setImage(File $image = null)
-//    {
-//        $this->image = $image;
-//    }
-//
-//    public function getImage()
-//    {
-//        return $this->image;
-//    }
 
     /**
      * Set imageName

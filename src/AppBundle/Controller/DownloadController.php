@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Message;
+use AppBundle\Entity\UserFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,19 +13,19 @@ class DownloadController extends Controller
 {
     /**
      * @Route("/download/{id}", name="download_file")
-     * @ParamConverter("message", class="AppBundle:Message", options={"mapping": {"id":"id"}})
+     * @ParamConverter("userFile", class="AppBundle:UserFile", options={"mapping": {"id":"id"}})
      */
-    public function downloadAction(Message $message)
+    public function downloadAction(UserFile $userFile)
     {
         $storge = $this->get('vich_uploader.storage');
 
-        $path = $storge->resolvePath($message, 'file');
+        $path = $storge->resolvePath($userFile, 'file');
 
         $response = new BinaryFileResponse($path);
 
         //example: filename is 55efbe33d0be3_xxx.pdf
         //result:  filename is xxx.pdf
-        $filename = strstr($message->getFileName(), '_');
+        $filename = strstr($userFile->getFileName(), '_');
         $filename = substr($filename, 1, strlen($filename));
 
         $d = $response->headers->makeDisposition(
