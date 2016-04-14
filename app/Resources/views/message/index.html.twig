@@ -36,15 +36,17 @@
             <td>{{ message.user.username }}</td>
             <td>{{ message.content }}</td>
             <td>
-                {% if message.fileName %}
-                    {% if message.mimeType == "application/pdf" or message.mimeType == "application/zip" %}
-                        <a href="{{ path('download_file', {id: message.id}) }}">{{ message.fileName }}</a>
+            {% for one in message.file %}
+                {% if one.fileName %}
+                    {% if one.mimeType == "application/pdf" or one.mimeType == "application/zip" %}
+                        <a href="{{ path('download_file', {id: one.id}) }}">{{ one.fileName }}</a>
                     {% else %}
-                        <a href="{{ path('download_file', {id: message.id}) }}"><img src="{{ vich_uploader_asset(message, 'file')|imagine_filter('my_thumb') }}"  alt="{{ message.fileName }}"/></a>
+                        <a href="{{ path('download_file', {id: one.id}) }}"><img src="{{ vich_uploader_asset(one, 'file')|imagine_filter('my_thumb') }}"  alt="{{ one.fileName }}"/></a>
                     {% endif %}
                 {% else %}
                     no file uploaded
                 {% endif %}
+            {% endfor %}
             </td>
         </tr>
     {% endfor %}
